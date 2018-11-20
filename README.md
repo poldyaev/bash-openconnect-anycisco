@@ -11,7 +11,7 @@ for ubuntu 16.04 u must download 16.04 branch
 
 after clone or download run this code to bash 
 ```
-sud chmod +x /bin/cisco
+sudo chmod +x /bin/cisco
 ```
 
 
