@@ -1,0 +1,46 @@
+#!/bin/bash
+#yaser
+
+USERNAME="your username"
+PASSWORD="your password"
+URL="url"
+PIDFILE="/tmp/openconnect-pid"
+RESTART_NETWORK="Restarting \033[1;33mnetwork-manager\033[0m service .\033[1;31mDisconnect\033[0m your device from network and connect again.Are you sure (yes/no) : "
+case "$1" in
+start)
+  printf "Connection to \033[1;32m$URL\033[0m with $USERNAME:$PASSWORD\n"
+  #bad certs
+  #echo "$PASSWORD" |sudo openconnect -b --no-dtls --pid-file=$PIDFILE --no-cert-check --user=$USERNAME $URL
+  #normal
+  echo "$PASSWORD" |sudo openconnect -b --no-dtls --pid-file=$PIDFILE --user=$USERNAME $URL --servercert sha256:9eacd4d5537d7aa23f6a7f544164dafd54c92f1909f427a7a4ac02302fd43383
+;;
+stop)
+        if [ -f $PIDFILE ]; then
+    printf "Stop \033[1;31mopenConnect\033[0m with pid : $(cat $PIDFILE)\n"
+    cat $PIDFILE  | sudo xargs kill -2
+        else
+                 echo "Cisco is not running"
+        fi
+;;
+status)
+  if [ -f $PIDFILE ]; then
+    echo "Cisco start/running, process $(cat $PIDFILE)"
+  else
+    echo "Cisco stop/waiting"
+  fi
+;;
+restart)
+  printf "$RESTART_NETWORK"
+  while true; do
+    read -p "" yn
+    case $yn in
+      [Yy]* ) sudo service network-manager restart; break;;
+      [Nn]* ) exit;;
+    * ) echo "Please answer yes or no.";;
+    esac
+  done
+;;
+*)
+  echo "Cisco <restart|start|status|stop>"
+  exit 1
+esac
