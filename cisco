@@ -10,9 +10,9 @@ case "$1" in
 start)
   printf "Connection to \033[1;32m$URL\033[0m with $USERNAME:$PASSWORD\n"
   #bad certs
-  #echo "$PASSWORD" |sudo openconnect -b --no-dtls --pid-file=$PIDFILE --no-cert-check --user=$USERNAME $URL
+  echo "$PASSWORD" |sudo openconnect -b --no-dtls --pid-file=$PIDFILE --no-cert-check --user=$USERNAME $URL
   #normal
-  echo "$PASSWORD" |sudo openconnect -b --no-dtls --pid-file=$PIDFILE --user=$USERNAME $URL --servercert sha256:9eacd4d5537d7aa23f6a7f544164dafd54c92f1909f427a7a4ac02302fd43383
+  #echo "$PASSWORD" |sudo openconnect -b --no-dtls --pid-file=$PIDFILE --user=$USERNAME $URL --servercert sha256:9eacd4d5537d7aa23f6a7f544164dafd54c92f1909f427a7a4ac02302fd43383
 ;;
 stop)
         if [ -f $PIDFILE ]; then
